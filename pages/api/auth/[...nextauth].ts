@@ -10,11 +10,11 @@ export const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || "",
+      clientSecret: process.env.GITHUB_SECRET || ""
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
     }),
     Credentials({
       id: "credentials",
@@ -22,12 +22,12 @@ export const authOptions: AuthOptions = {
       credentials: {
         email: {
           label: "Email",
-          type: "text",
+          type: "text"
         },
         password: {
           label: "Password",
-          type: "passord",
-        },
+          type: "password"
+        }
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -36,8 +36,8 @@ export const authOptions: AuthOptions = {
 
         const user = await prismadb.user.findUnique({
           where: {
-            email: credentials.email,
-          },
+            email: credentials.email
+          }
         });
 
         if (!user || !user.hashedPassword) {
@@ -54,19 +54,19 @@ export const authOptions: AuthOptions = {
         }
 
         return user;
-      },
-    }),
+      }
+    })
   ],
   pages: {
-    signIn: "/auth",
+    signIn: "/auth"
   },
   debug: process.env.NODE_ENV === "development",
   adapter: PrismaAdapter(prismadb),
   session: { strategy: "jwt" },
   jwt: {
-    secret: process.env.NEXTAUTH_JWT_SECRET,
+    secret: process.env.NEXTAUTH_JWT_SECRET
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET
 };
 
 export default NextAuth(authOptions);
